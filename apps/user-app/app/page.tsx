@@ -1,5 +1,6 @@
 import SignUpPage from "@/pages/SignUpPage"
 import { Button } from "@workspace/ui/components/button"
+import prisma from "@repo/db/client"
 
 export default function Page() {
   return (
