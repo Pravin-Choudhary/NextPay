@@ -1,7 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
+import { ThemeProvider } from "@/components/theme-providers"
+import { Providers } from "@/providers"
+import { ModeToggle } from "./user-app-components/toggle-mode"
+
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -23,7 +26,14 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <Providers>{children}</Providers>
+      <Providers>
+            <ThemeProvider>
+              <main className="w-full">
+                  <ModeToggle/>
+                  <div>{children}</div>
+              </main>
+            </ThemeProvider>
+      </Providers>
       </body>
     </html>
   )

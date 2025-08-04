@@ -5,7 +5,7 @@
     "paths": {
       "@/*": ["./*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"],
-      "@repo/db/*": ["../../packages/db/*"]
+      "@repo/db/*": ["../../packages/db/*"],
     },
     "plugins": [
       {
