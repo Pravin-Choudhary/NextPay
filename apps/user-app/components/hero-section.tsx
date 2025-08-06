@@ -1,14 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, ChevronRight } from 'lucide-react'
-import { Button } from '@workspace/ui/components/button'
+
 import Image from 'next/image'
 import { TextEffect } from '@workspace/ui/components/text-effect'
 import { AnimatedGroup } from '@workspace/ui/components/animated-group'
 import { HeroHeader } from './header'
 import { AuroraText } from './magicui/aurora-text'
 import { TextAnimate } from './magicui/text-animate'
-import { PointerHighlight } from './ui/pointer-highlight'
+
 import { InteractiveHoverButton } from './magicui/interactive-hover-button'
 
 const transitionVariants = {
@@ -48,19 +47,20 @@ export default function HeroSection() {
                         <div className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"></div>
                         <div className="mx-auto max-w-7xl px-6">
                             <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0 ">
+                                <AuroraText className="text-4xl font-bold  md:text-5xl lg:text-7xl mt-2 m:mt-8" colors={["#FF0080", "#7928CA", "#0070F3", "#38bdf8"]}>
+                                        NextPay    
+                                </AuroraText>
 
-                               <div className='flex justify-center'>
-                                    <PointerHighlight>
-                                        <AuroraText className="text-4xl font-bold  md:text-5xl lg:text-7xl mt-2 m:mt-8" colors={["#FF0080", "#7928CA", "#0070F3", "#38bdf8"]}>
-                                            NextPay
-                                        </AuroraText>
-                                    </PointerHighlight>
-                               </div>
-
-                                <TextAnimate animation="blurInUp" by="character" once className="mt-2 text-balance text-6xl md:text-7xl lg:mt-8 xl:text-[5.25rem]">
+                                <TextEffect
+                                    per="line"
+                                    preset="fade-in-blur"
+                                    speedSegment={0.3}
+                                    delay={0.5}
+                                    as="p"
+                                    className="mx-auto mt-2 max-w-2xl text-balance text-4xl">
                                     The Future of Payments with AI
-                                </TextAnimate>
-                                
+                                </TextEffect>
+
                                 <TextEffect
                                     per="line"
                                     preset="fade-in-blur"
@@ -84,8 +84,7 @@ export default function HeroSection() {
                                         ...transitionVariants,
                                     }}
                                     className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
-                                            <InteractiveHoverButton>Get Started</InteractiveHoverButton>
-                                   
+                                            <InteractiveHoverButton>Get Started</InteractiveHoverButton>   
                                 </AnimatedGroup>
                             </div>
                         </div>

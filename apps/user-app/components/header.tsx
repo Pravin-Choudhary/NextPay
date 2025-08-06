@@ -1,11 +1,13 @@
 'use client'
 import Link from 'next/link'
-import { Logo } from '@/components/logo'
+import Logo from "../public/assets/BgBlackLogo.png"
 import { Menu, X } from 'lucide-react'
 import { Button } from '@workspace/ui/components/button'
 import React from 'react'
 import { cn } from '@workspace/ui/lib/utils'
-import { ModeToggle } from '@/app/user-app-components/Toggle-mode'
+import { ModeToggle } from '@/components/Toggle-mode'
+import Image from 'next/image'
+import { signIn } from 'next-auth/react'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -37,7 +39,7 @@ export const HeroHeader = () => {
                                 href="/"
                                 aria-label="home"
                                 className="flex items-center space-x-2">
-                                <Logo />
+                                <Image src={Logo} alt='NextPay' width={55} height={55} className='rounded-xl' />
                             </Link>
 
                             <button
@@ -85,18 +87,16 @@ export const HeroHeader = () => {
                                     asChild
                                     variant="outline"
                                     size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#">
-                                        <span>Login</span>
-                                    </Link>
+                                    className={cn(isScrolled && 'lg:hidden' )}>
+                                        <span className='cursor-pointer' onClick={async () => {
+                                            await signIn();   
+                                        }}>Login</span>
                                 </Button>
                                 <Button
                                     asChild
                                     size="sm"
                                     className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#">
-                                        <span>Sign Up</span>
-                                    </Link>
+                                        <span className='cursor-pointer'>Sign Up</span>
                                 </Button>
                                 <Button
                                     asChild
