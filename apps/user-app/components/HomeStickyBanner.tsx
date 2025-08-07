@@ -1,5 +1,6 @@
 import { StickyBanner } from "./ui/sticky-banner";
 
+
 export default function HomeStickyBanner() {
     return(
         <div className="relative flex w-full flex-col overflow-y-auto">
