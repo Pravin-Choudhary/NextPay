@@ -1,8 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "@workspace/ui/globals.css"
-import { Providers } from "@/components/theme-providers"
-import { ProvidersRecoil } from "@/providers"
+
+import { Providers } from "@/providers"
+import { ThemeProvider } from "@/components/theme-providers"
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -20,14 +21,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <ProvidersRecoil>
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
-      >
-        <Providers>{children}</Providers>
+ <html lang="en" suppressHydrationWarning>
+      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}>
+      <Providers>
+            <ThemeProvider>
+              <main className="w-full">
+                  <div>{children}</div>
+              </main>
+            </ThemeProvider>
+      </Providers>
       </body>
-      </ProvidersRecoil>
     </html>
   )
 }
