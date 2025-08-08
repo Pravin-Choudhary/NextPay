@@ -7,10 +7,10 @@ export const authOptions = {
         CredentialsProvider({
             name : 'Credentails',
             credentials : {
-                phone : { label: "Phone Number" , type: "text" , placeholder : "+91 1212121212" , required : true},
+                number : { label: "Phone Number" , type: "text" , placeholder : "+91 1212121212" , required : true},
                 password: { label: "Password", type: "password", required: true }
             },
-            // TODO: User credentials type from next-aut
+            // TODO: User credentials type from next-auth
             async authorize(credentials: any) {
                 // Do zod validation, OTP validation here
                 const hashedPassword = await bcrypt.hash(credentials.password , 10);
@@ -59,8 +59,11 @@ export const authOptions = {
         // TODO: can u fix the type here? Using any is bad
         async session({ token, session }: any) {
             session.user.id = token.sub
-
+            console.log("session" , session);
             return session
         }
+    },
+    pages : {
+        signIn : '/signin',
     }
 }
