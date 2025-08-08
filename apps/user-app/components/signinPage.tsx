@@ -47,7 +47,7 @@ export default function SignInLoginPage() {
                                 required
                                 name="number"
                                 id="number"
-                                onChange={(e) => setNumber(e.target.value)}
+                                onChange={(e) => setNumber(c => e.target.value)}
                             />
                         </div>
 
@@ -119,7 +119,14 @@ export default function SignInLoginPage() {
                     <div className="grid grid-cols-1 gap-3">
                         <Button
                             type="button"
-                            variant="outline">
+                            variant="outline"
+                            onClick={async() => {
+                                const res = await signIn("google",{
+                                    callbackUrl : "/user-dashboard",
+                                });
+                                console.log("Google Res :",res);
+                                
+                            }}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="0.98em"

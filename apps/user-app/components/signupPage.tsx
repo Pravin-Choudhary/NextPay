@@ -1,15 +1,54 @@
+"use client"
+
 import Logo from "@workspace/ui/public/assests/BgBlackLogo.png"
 import { Button } from '@workspace/ui/components/button'
 import { Input } from '@workspace/ui/components/input'
 import { Label } from '@workspace/ui/components/label'
 import Link from 'next/link'
 import Image from "next/image"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import { signup } from "@/app/actions/user"
+import { toast } from 'sonner'
 
 export default function SignUpLoginPage() {
+    const [name , setName] = useState("");
+    const [email , setEmail] = useState("");
+    const [number , setNumber] = useState("");
+    const [password , setPassword] = useState("");
+    const router = useRouter();
+
+ const handleSignUp = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        toast.promise(
+            (async () => {
+                const data = await signup(name, email, number, password);
+
+                if (data.login) {
+                    setTimeout(() => {
+                        router.push('/signin');
+                    }, 3000);
+                    return "Account Created Successfully!";
+                }
+                if (data.res === "exist") {
+                    throw new Error("User with same number already exists!");
+                }
+                throw new Error("Invalid Credentials or Something went Wrong!");
+            })(),
+            {
+                loading: 'Creating account...',
+                success: (msg) => msg,
+                error: (err) => err.message
+            }
+        );
+    };
+
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-10 md:py-14 dark:bg-transparent ">
             <form
-                action=""
+                onSubmit={handleSignUp}
                 className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
                 <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
                     <div className="text-center">
@@ -28,13 +67,14 @@ export default function SignUpLoginPage() {
                                 <Label
                                     htmlFor="Name"
                                     className="block text-sm">
-                                    Firstname
+                                    UserName
                                 </Label>
                                 <Input
                                     type="text"
                                     required
                                     name="name"
                                     id="name"
+                                    onChange={(e) => setName(c => e.target.value)}
                                 />
                         </div>
 
@@ -49,6 +89,7 @@ export default function SignUpLoginPage() {
                                 required
                                 name="email"
                                 id="email"
+                                onChange={(e) => setEmail(c => e.target.value)}
                             />
                         </div>
 
@@ -63,6 +104,7 @@ export default function SignUpLoginPage() {
                                 required
                                 name="number"
                                 id="email"
+                                onChange={(e) => setNumber(c => e.target.value)}
                             />
                         </div>
 
@@ -85,6 +127,7 @@ export default function SignUpLoginPage() {
                                 name="pwd"
                                 id="pwd"
                                 className="input sz-md variant-mixed"
+                                onChange={(e) => setPassword(c => e.target.value)}
                             />
                         </div>
 
@@ -97,10 +140,15 @@ export default function SignUpLoginPage() {
                         <hr className="border-dashed" />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 gap-3">
                         <Button
                             type="button"
-                            variant="outline">
+                            variant="outline"
+                            onClick={async() => {
+                                     await signIn("google" , {
+                                    callbackUrl : "/user-dashboard"
+                                });
+                            }}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="0.98em"
@@ -130,7 +178,8 @@ export default function SignUpLoginPage() {
                         <Button
                             asChild
                             variant="link"
-                            className="px-2">
+                            className="px-2"
+                        >
                             <Link href="/signin">Sign In</Link>
                         </Button>
                     </p>

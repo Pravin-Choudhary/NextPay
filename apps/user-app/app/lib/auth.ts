@@ -1,5 +1,6 @@
 import prisma from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt"
 
 export const authOptions = {
@@ -52,8 +53,12 @@ export const authOptions = {
 
                 return null
             },
-        })
-    ],
+        }),
+        GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || "" 
+  })
+],
     secret : process.env.JWT_SECRET || "secret",
     callbacks : {
         // TODO: can u fix the type here? Using any is bad
