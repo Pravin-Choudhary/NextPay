@@ -1,7 +1,13 @@
 import prisma from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import {number, z} from "zod";
+ 
+const credentialsValidator = z.object({
+    number : z.string().min(10),
+    password : z.string().min(8)
+})
 
 export const authOptions = {
     providers : [
@@ -14,7 +20,16 @@ export const authOptions = {
             // TODO: User credentials type from next-auth
             async authorize(credentials: any) {
                 // Do zod validation, OTP validation here
-                const hashedPassword = await bcrypt.hash(credentials.password , 10);
+                
+                const credentialsValidate = credentialsValidator.safeParse({
+                    number : credentials.number,
+                    password : credentials.password
+                });
+
+                if(!credentialsValidate.success){
+                    return null;
+                }
+
                 const existingUser = await prisma.user.findFirst({
                     where : {
                         number : credentials.number
@@ -32,23 +47,6 @@ export const authOptions = {
                     }
 
                     return null;
-                }
-
-                try {
-                    const user = await prisma.user.create({
-                        data : {
-                            number : credentials.number,
-                            password : hashedPassword
-                        }
-                    });
-
-                    return {
-                        id : user.id.toString(),
-                        name : user.name,
-                        email : user.email
-                    }
-                } catch (error) {
-                    console.error(error);
                 }
 
                 return null

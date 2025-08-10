@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import Image from 'next/image'
 import { TextEffect } from '@workspace/ui/components/text-effect'
@@ -5,6 +6,7 @@ import { AnimatedGroup } from '@workspace/ui/components/animated-group'
 import { HeroHeader } from './header'
 import { AuroraText } from './magicui/aurora-text'
 import { InteractiveHoverButton } from './magicui/interactive-hover-button'
+import { useRouter } from 'next/navigation'
 
 const transitionVariants = {
     item: {
@@ -27,6 +29,7 @@ const transitionVariants = {
 }
 
 export default function HeroSection() {
+    const router = useRouter();
     return (
         <>
             <HeroHeader />
@@ -80,7 +83,7 @@ export default function HeroSection() {
                                         ...transitionVariants,
                                     }}
                                     className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
-                                            <InteractiveHoverButton>Get Started</InteractiveHoverButton>   
+                                            <InteractiveHoverButton onClick={() => router.push('signup')}>Get Started</InteractiveHoverButton>   
                                 </AnimatedGroup>
                             </div>
                         </div>

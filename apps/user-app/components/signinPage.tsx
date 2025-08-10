@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from 'sonner'
 import { signIn } from "next-auth/react"
+import {LoadingSpinner} from "@workspace/ui/components/loader"
 
 
 
@@ -16,7 +17,8 @@ export default function SignInLoginPage() {
     const router = useRouter();
     const [number , setNumber] = useState("");
     const [password , setPassword] = useState("");
-    const [error , setError] = useState(false)
+    const [loader , setLoader] = useState(false);
+
     
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
@@ -79,18 +81,19 @@ export default function SignInLoginPage() {
                             />
                         </div>
 
-                        <Button className="w-full" onClick={async(e) => {
+                        <Button className="w-full" disabled={loader} onClick={async(e) => {
                             e.preventDefault();
                             try{
+                                setLoader(c => !c);
                                 const res = await signIn("credentials", {
                                     number : number,
                                     password : password,
                                     redirect : false,
                                     callbackUrl : '/user-dashboard'
                                 });
-                                console.log(" response Signin : ",res);
 
                                 if(!res?.ok){
+                                    setLoader(c => !c);
                                     toast.error('Invaild Credentials!.', {
                                     style: {
                                         '--normal-bg':
@@ -100,14 +103,16 @@ export default function SignInLoginPage() {
                                     } as React.CSSProperties
                                     })                                      
                                 }else if(res.ok && res?.url){
+                                    setLoader(c => !c);
                                     router.push(res.url);
                                 }
                             }catch(e){
+                                setLoader(c => !c);
                                 console.log("Error : ",e);
                                 router.push('/signin');
                             }
                         }
-                        }>Sign In</Button>
+                        }>{!loader ? "Sign In" : <LoadingSpinner/> }</Button>
                     </div>
 
                     <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">

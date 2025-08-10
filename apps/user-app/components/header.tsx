@@ -8,6 +8,7 @@ import { cn } from '@workspace/ui/lib/utils'
 import { ModeToggle } from '@workspace/ui/components/Toggle-mode'
 import Image from 'next/image'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -19,6 +20,7 @@ const menuItems = [
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
+    const router = useRouter();
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -87,15 +89,19 @@ export const HeroHeader = () => {
                                     asChild
                                     variant="outline"
                                     size="sm"
-                                    className={cn(isScrolled && 'lg:hidden' )}>
-                                        <span className='cursor-pointer' onClick={async () => {
+                                    className={cn(isScrolled && 'lg:hidden' )}
+                                    onClick={async () => {
                                             await signIn();   
-                                        }}>Login</span>
+                                    }}>
+                                        <span className='cursor-pointer'>Login</span>
                                 </Button>
                                 <Button
                                     asChild
                                     size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    className={cn(isScrolled && 'lg:hidden')}
+                                    onClick={() => {
+                                        router.push('signup');
+                                    }}>
                                         <span className='cursor-pointer'>Sign Up</span>
                                 </Button>
                                 <Button

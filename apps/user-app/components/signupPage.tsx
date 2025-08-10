@@ -10,6 +10,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { signup } from "@/app/actions/user"
+import {LoadingSpinner} from "@workspace/ui/components/loader"
 import { toast } from 'sonner'
 
 export default function SignUpLoginPage() {
@@ -17,6 +18,7 @@ export default function SignUpLoginPage() {
     const [email , setEmail] = useState("");
     const [number , setNumber] = useState("");
     const [password , setPassword] = useState("");
+    const [loader , setLoader] = useState(false);
     const router = useRouter();
 
  const handleSignUp = async (e: React.FormEvent) => {
@@ -24,17 +26,19 @@ export default function SignUpLoginPage() {
 
         toast.promise(
             (async () => {
+                setLoader(c => !c);
                 const data = await signup(name, email, number, password);
 
                 if (data.login) {
-                    setTimeout(() => {
+                        setLoader(c => !c);
                         router.push('/signin');
-                    }, 3000);
                     return "Account Created Successfully!";
                 }
                 if (data.res === "exist") {
+                    setLoader(c => !c);
                     throw new Error("User with same number already exists!");
                 }
+                setLoader(c => !c);
                 throw new Error("Invalid Credentials or Something went Wrong!");
             })(),
             {
@@ -131,7 +135,7 @@ export default function SignUpLoginPage() {
                             />
                         </div>
 
-                        <Button className="w-full">Sign Up</Button>
+                        <Button disabled={loader} className="w-full">{!loader ? "Sign Up" : <LoadingSpinner/> } </Button>
                     </div>
 
                     <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">

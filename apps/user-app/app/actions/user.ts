@@ -8,7 +8,7 @@ import bcrypt from "bcrypt"
 const SignupValidation = z.object({
     name : z.string().optional(),
     email : z.string().email().optional(),
-    number : z.string(),
+    number : z.string().min(10),
     password : z.string().min(8)
 }); 
 
@@ -38,6 +38,7 @@ export async function signup(name : string, email : string , number : string , p
 
         if(!userDataValidation.success)
         {
+            console.log(userDataValidation.error);
             return {
                 login : false
             }
