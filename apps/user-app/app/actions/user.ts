@@ -1,21 +1,21 @@
 "use server"
 
 import prisma from "@repo/db/client"
-import {number, z} from "zod"
+import {z} from "zod"
 import bcrypt from "bcrypt"
 
 
 const SignupValidation = z.object({
     name : z.string().optional(),
     email : z.string().email().optional(),
-    number : z.string().min(10),
+    number : z.string().regex(/^\d{10}$/).min(10).max(10),
     password : z.string().min(8)
 }); 
 
 export async function signup(name : string, email : string , number : string , password : string) {
     try {
-        const hashedPassword = await bcrypt.hash(password,10)
-
+        const hashedPassword = await bcrypt.hash(password,10);
+        
         const userExist = await prisma.user.findFirst({
             where : {
                 number : number
@@ -38,7 +38,8 @@ export async function signup(name : string, email : string , number : string , p
 
         if(!userDataValidation.success)
         {
-            console.log(userDataValidation.error);
+            console.log(userDataValidation.error.format());
+            
             return {
                 login : false
             }

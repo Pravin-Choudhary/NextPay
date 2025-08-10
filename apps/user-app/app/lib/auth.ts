@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import {number, z} from "zod";
  
 const credentialsValidator = z.object({
-    number : z.string().min(10),
+    number : z.string().regex(/^\d{10}$/).min(10).max(10),
     password : z.string().min(8)
 })
 
@@ -20,7 +20,6 @@ export const authOptions = {
             // TODO: User credentials type from next-auth
             async authorize(credentials: any) {
                 // Do zod validation, OTP validation here
-                
                 const credentialsValidate = credentialsValidator.safeParse({
                     number : credentials.number,
                     password : credentials.password

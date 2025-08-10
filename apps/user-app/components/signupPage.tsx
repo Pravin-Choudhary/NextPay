@@ -39,7 +39,7 @@ export default function SignUpLoginPage() {
                     throw new Error("User with same number already exists!");
                 }
                 setLoader(c => !c);
-                throw new Error("Invalid Credentials or Something went Wrong!");
+                throw new Error("Invalid Input Data or Something went Wrong!");
             })(),
             {
                 loading: 'Creating account...',
