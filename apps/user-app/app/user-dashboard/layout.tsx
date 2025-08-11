@@ -1,4 +1,4 @@
-import AppSidebar from "@/components/appSidebar"
+import AppSidebar from "@/components/app-sidebar"
 import Navbar from "@/components/navbar"
 import { Separator } from "@workspace/ui/components/separator"
 import {SidebarProvider} from  "@workspace/ui/components/sidebar"

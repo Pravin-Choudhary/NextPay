@@ -2,7 +2,7 @@ import prisma from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-import {number, z} from "zod";
+import {z} from "zod";
  
 const credentialsValidator = z.object({
     number : z.string().regex(/^\d{10}$/).min(10).max(10),
