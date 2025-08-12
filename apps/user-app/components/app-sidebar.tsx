@@ -3,13 +3,19 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from "@workspace/ui/components/sidebar"
+import Link from "next/link"
+import Image from "next/image"
+import Logo from "@workspace/ui/public/assests/BgBlackLogo.png"
  
 
 const items = [
@@ -42,7 +48,22 @@ const items = [
 
 export default function AppSidebar(){
     return (
-        <Sidebar variant="floating" collapsible="icon">
+        <Sidebar collapsible="icon" >
+            <SidebarHeader>
+              <SidebarMenu>
+                  <SidebarMenuItem>
+                      <SidebarMenuButton asChild size={"md"}>
+                          <Link href={'/'}>
+                          <Image src={Logo} width={35} height={35} alt="NextPayLogo" className="object-cover" />
+                          <span>NEXT PAY</span>
+                          </Link>
+                      </SidebarMenuButton>
+                  </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarHeader>
+
+            <SidebarSeparator/>
+
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Next Pay</SidebarGroupLabel>
@@ -62,6 +83,20 @@ export default function AppSidebar(){
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+
+            <SidebarSeparator/>
+            <SidebarFooter>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <div>
+                        <Image src={Logo} width={35} height={35} alt="NextPayLogo" className="object-cover" />
+                       <span>Pravin Choudhary</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }

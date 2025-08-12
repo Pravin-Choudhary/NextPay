@@ -362,7 +362,7 @@ function SidebarSeparator({
     <Separator
       data-slot="sidebar-separator"
       data-sidebar="separator"
-      className={cn("bg-sidebar-border mx-2 w-auto", className)}
+      className={cn("bg-sidebar-border mx-0 w-auto", className)}
       {...props}
     />
   )
@@ -485,6 +485,7 @@ const sidebarMenuButtonVariants = cva(
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
+        md: "h-8 text-sm group-data-[collapsible=icon]:p-0!",
         lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
       },
     },
